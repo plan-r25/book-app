@@ -8,7 +8,7 @@
 </head>
 <body>
   <button id="new">New</button>
-  <form class="form">
+  <form class="hidden">
     <label for="title">Title:</label>
     <input type="text"
            id="title" 
@@ -16,11 +16,15 @@
     <label for="auhtor">Author:</label>
     <input type="text"
            id="author" 
-           name="autor" />
-    <label for="page">Page:</label>
+           name="author" />
+    <label for="page">Pages:</label>
     <input type="number"
            id="page" 
-           name="page" />
+           name="pages" />
+    <label for="status">Status:</label>
+    <input type="text"
+           id="status"
+           name="status" />
     <button class="add">Add</button>
   </form>
 
@@ -30,14 +34,13 @@
     </caption>
     <thead>
       <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Page</th>
-        <th>Status</th>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">Pages</th>
+        <th scope="col">Status</th>
       </tr>
     </thead>
     <tbody>
-      
     </tbody>
   </table>
 

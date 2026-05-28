@@ -1,5 +1,6 @@
 const newBtn = document.querySelector("#new");
 const form = document.querySelector("form");
+const tbody = document.querySelector("tbody");
 
 newBtn.addEventListener("click", () => {
   form.classList.toggle("hidden");
@@ -9,16 +10,18 @@ newBtn.addEventListener("click", () => {
 //Library logic
  const myLibrary = [];
 
- function Book(title, author, page, status) {
+ function Book(title, author, pages, status) {
    this.id = crypto.randomUUID();
    this.title = title;
    this.author= author;
-   this.page = page;
+   this.pages = pages;
    this.status = status;
   }
 
  function addBookToLibrary(book) {
   myLibrary.push(book);
+
+  displayLibrary();
  }
 
  document.querySelector('form').addEventListener("submit", (e) => {
@@ -33,21 +36,25 @@ newBtn.addEventListener("click", () => {
   addBookToLibrary(book);
   console.log(myLibrary);
   e.target.reset();
+  form.classList.add("hidden");
  });
 
  function displayLibrary() {
+  tbody.innerHTML = "";
    for (const book of myLibrary) {
      let tr = document.createElement("tr");
-
-     for (const [key, value] of Object.entries(book)) {
+     const properties = ["title", "author", "pages", "status"];
+     properties.forEach(prop => {
       let td = document.createElement("td");
-      td.textContent = `${value}`;
+      td.textContent = book[prop];
       tr.appendChild(td);
-      console.log(td.textContent);
-     }
+     })
+    //  for (const [key, value] of Object.entries(book)) {
+    //    let td = document.createElement("td");
+    //    td.textContent = value;
+    //    tr.appendChild(td);
+    //    console.log(td.textContent);
+    //  }
+     tbody.appendChild(tr);
    }
   }
-
-
-
-

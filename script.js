@@ -40,21 +40,37 @@ newBtn.addEventListener("click", () => {
  });
 
  function displayLibrary() {
-  tbody.innerHTML = "";
+   tbody.innerHTML = "";
    for (const book of myLibrary) {
-     let tr = document.createElement("tr");
+     const tr = document.createElement("tr");
      const properties = ["title", "author", "pages", "status"];
      properties.forEach(prop => {
-      let td = document.createElement("td");
-      td.textContent = book[prop];
-      tr.appendChild(td);
-     })
-    //  for (const [key, value] of Object.entries(book)) {
-    //    let td = document.createElement("td");
-    //    td.textContent = value;
-    //    tr.appendChild(td);
-    //    console.log(td.textContent);
-    //  }
+       let td = document.createElement("td");
+       td.textContent = book[prop];
+       tr.appendChild(td);
+     });
+     const dltTd = document.createElement("td");
+     const dlt = document.createElement("button");
+     dlt.textContent = "Delete";
+
+     dlt.addEventListener("click", () => {
+      const index = myLibrary.findIndex(b => b.id === book.id);
+      myLibrary.splice(index, 1);
+      displayLibrary();
+     });
+     dltTd.appendChild(dlt);
+     tr.appendChild(dltTd);
      tbody.appendChild(tr);
-   }
+    }
   }
+
+  function deleteBook() {
+    for (const book of myLibrary) {
+
+      const index = myLibrary.findIndex(b => b.id === book.id);
+      myLibrary.splice(index, 1);
+      displayLibrary();
+    }
+  }
+
+

@@ -3,48 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book app</title>
+  <title>Library</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <button id="new">New</button>
-  <form class="hidden">
-    <label for="title">Title:</label>
-    <input type="text"
-           id="title" 
-           name="title" />
-    <label for="auhtor">Author:</label>
-    <input type="text"
-           id="author" 
-           name="author" />
-    <label for="page">Pages:</label>
-    <input type="number"
-           id="page" 
-           name="pages" />
-    <label for="status">Status:</label>
-    <input type="text"
-           id="status"
-           name="status" />
-    <button class="add">Add</button>
-  </form>
+  <header>
+    <h1>My Library</h1>
+  </header>
+  <main>
+    <button class="new">Add Book</button>
+    <dialog id="formDialog" class="modal">
+      <button class="close">
+        <svg xmlns="http://www.w3.org/2000/svg" 
+            class="close-icon" 
+            height="34px" 
+            viewBox="0 -960 960 960" 
+            width="34px" 
+            fill="#1f1f1f">
+            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+        </svg>
+      </button>
+      <form method="dialog">
+        <label for="title">Title</label>
+        <input type="text"
+               id="title"
+               name="title" 
+               placeholder="Title"
+               required/>
+        <label for="description">Description</label>
+        <textarea
+               id="description"
+               name="description"
+               maxLength="250"
+               rows="4"
+               cols="30"
+               placeholder="Description only upto 250 characters"></textarea>
+        <label for="author">Author</label>
+        <input type="text"
+               id="author"
+               name="author" 
+               placeholder="Author"
+               required/>
+        <label for="pages">Pages</label>
+        <input type="number"
+               id="pages"
+               name="pages" 
+               placeholder="pages" />
+        <label for="category">Category</label>
+        <input type="text"
+               id="category"
+               name="category" 
+               placeholder="category" />
+        <button class="add">Add</button>       
+      </form>
+    </dialog>
+    <div class="bookContainer">
 
-  <table>
-    <caption>
-      A web-app library
-    </caption>
-    <thead>
-      <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Author</th>
-        <th scope="col">Pages</th>
-        <th scope="col">Status</th>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
-
+    </div>
+  </main>
   <script src="script.js"></script>
-
 </body>
 </html>

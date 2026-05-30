@@ -13,8 +13,6 @@ closeBtn.addEventListener("click", () => {
 })
 
 //library logic
-const myLibrary = [];
-
 class Book {
   constructor(title, description, author, pages, category) {
     this.id = crypto.randomUUID();
@@ -26,6 +24,39 @@ class Book {
   }
 }
 
+const myLibrary = [
+  new Book("Eternally Regressing Knight",
+           "Aslo known as The Knight Only Lives Today, is a fantasy action novel about a medicore knight who gains the ability to return to the past whenever he dies.Unlike many protagonist, he starts with little talent and must repeatedly learn from his mistakes.",
+           "Soul Pung",
+           "600+",
+           "Fantasy, Action, Adventure"
+  ),
+  new Book("Myst, Might, Mayhem",
+           "It follows Mok Gyeongwoon, a ruthless killer who takes the identity of a noble family's third young master and rises through a brutal martial world filled with demons, ghosts, conspiracies, and overwhelming power. It is known for its morally dark MC, and the connection to the universe of Nano Machine.",
+           "Han joong Wol Ya",
+           "400+",
+           "Martial Arts, Dark Fantasy, Action"
+  ),
+  new Book("The Atomic Habits", 
+           "It's a self-improvement book that explain how small, consistent changes in daily behaviour can lead to remarkable result over time.", 
+           "James Clear", 
+            320, 
+           "Self-help"
+  ),
+  new Book("Mastery",
+           "It explores the lives of historical figures, artists, scientists, and entreprenuers, the book outline a path to mastery through apprenticeship, continous learning and delibrate practice.",
+           "Robert Greene",
+            352,
+            "Psychology, Leadership, Self-help"
+  ),
+  new Book("How to Win Friends and Influence People",
+           "A classic self-help book that teaches techniques for improving communication, building strong relationship, and positively influencing others. Through simple principles and real-life examples.",
+           "Dale Carnegie",
+            288,
+            "Communication Skills, Self-help"
+  ),
+];
+
 function addBookToLibrary(book) {
   myLibrary.push(book);
   showBook();
@@ -33,114 +64,84 @@ function addBookToLibrary(book) {
 
 }
 
-document.querySelector("form").addEventListener("submit", (e) => {
+document.querySelector('form').addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
-  let book = new Book(
-    formData.get("title"),
-    formData.get("description"),
-    formData.get("author"),
-    formData.get("pages"),
-    formData.get("category")  
-  );
-  addBookToLibrary(book);
+  if (editingId !== null) {
+    const book = myLibrary.find(b => b.id === editingId);
+    book.title = formData.get("title");
+    book.descrtiption = formData.get("description");
+    book.author = formData.get("author");
+    book.pages = Number(formData.get("pages"));
+    book.category = formData.get("category");
+    editingId = null;
+  } else {
+    let book = new Book(
+      formData.get("title"),
+      formData.get("description"),
+      formData.get("author"),
+      Number(formData.get("pages")),
+      formData.get("category")  
+    );
+  myLibrary.push(book);
+  }
+  showBook();
   e.target.reset();
   dialog.close();
 });
 
 //get the book from library and display it in a card
 function showBook() {
+  container.innerHTML = '';
+  const fragment = document.createDocumentFragment();
   for (const book of myLibrary) {
     const card = document.createElement("div");
     card.classList.add("card");
-    card.style.border = "2px solid black";
     const properties = ["title", "description", "author", "pages", "category"];
     properties.forEach(prop => {
-      let text = document.createElement("p");
+      const text = document.createElement("p");
       text.textContent = book[prop];
       card.appendChild(text);
     })
-    container.appendChild(card);
+    const dltBtn = document.createElement("button");
+    dltBtn.textContent = "Delete";
+    dltBtn.classList.add("delete")
+
+    const edtBtn = document.createElement('button');
+    edtBtn.textContent = "Edit";
+
+    dltBtn.addEventListener("click", (e) => {
+      const index = myLibrary.findIndex(b => b.id === book.id);
+      myLibrary.splice(index, 1);
+      showBook();
+    });
+
+    edtBtn.addEventListener("click", () => {
+      const edit = myLibrary.find(b => b.id === book.id);
+      editBook(edit);
+    });
+    card.append(dltBtn, edtBtn);
+    fragment.appendChild(card);
   }
+  container.appendChild(fragment);
 }
 
+showBook();
 
-
-
-
-
-// const newBtn = document.querySelector("#new");
-// const form = document.querySelector("form");
-// const tbody = document.querySelector("tbody");
-
-// newBtn.addEventListener("click", () => {
-//   form.classList.toggle("hidden");
-// });
-
-
-// //Library logic
-//  const myLibrary = [];
-
-//  function Book(title, author, pages, status) {
-//    this.id = crypto.randomUUID();
-//    this.title = title;
-//    this.author= author;
-//    this.pages = pages;
-//    this.status = status;
-//   }
-
-//  function addBookToLibrary(book) {
-//   myLibrary.push(book);
-
-//   displayLibrary();
-//  }
-
-//  document.querySelector('form').addEventListener("submit", (e) => {
-//   e.preventDefault();
-//   const formData = new FormData(e.target);
-//   let book = new Book(
-//     formData.get("title"),
-//     formData.get("author"),
-//     formData.get("pages"),
-//     formData.get("status")
-//   );
-//   addBookToLibrary(book);
-//   console.log(myLibrary);
-//   e.target.reset();
-//   form.classList.add("hidden");
-//  });
-
-//  function displayLibrary() {
-//    tbody.innerHTML = "";
-//    for (const book of myLibrary) {
-//      const tr = document.createElement("tr");
-//      const properties = ["title", "author", "pages", "status"];
-//      properties.forEach(prop => {
-//        let td = document.createElement("td");
-//        td.textContent = book[prop];
-//        tr.appendChild(td);
-//      });
-//      const dltTd = document.createElement("td");
-//      const dlt = document.createElement("button");
-//      dlt.textContent = "Delete";
-//      dlt.addEventListener("click", () => {
-//       const index = myLibrary.findIndex(b => b.id === book.id);
-//       myLibrary.splice(index, 1);
-//       displayLibrary();
-//      });
-//      dltTd.appendChild(dlt);
-//      tr.appendChild(dltTd);
-//      tbody.appendChild(tr);
-//     }
-//   }
-
-//   function deleteBook() {
-//     for (const book of myLibrary) {
-
-//       const index = myLibrary.findIndex(b => b.id === book.id);
-//       myLibrary.splice(index, 1);
-//       displayLibrary();
-//     }
-//   }
-
-
+let editingId = null;
+function editBook(book) {
+  editingId = book.id;
+  const title = document.querySelector("input[name='title']");
+  const description = document.querySelector("textarea[name='description']");
+  const author = document.querySelector("input[name='author']");
+  const pages = document.querySelector("input[name='pages']");
+  const category = document.querySelector("input[name='category']");
+  
+  title.value = book.title;
+  description.value = book.description;
+  author.value = book.author;
+  pages.value = book.pages;
+  category.value = book.category;
+  
+  dialog.showModal();
+}

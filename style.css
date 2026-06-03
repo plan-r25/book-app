@@ -1,99 +1,136 @@
-*,
-*::beofre,
-*::after {
-  box-sizing: border-box;
-}
-
 html {
   box-sizing: border-box;
 }
 
-::root {
-  --fonts: helvetica, sans-serif, "roboto";
-  
+:root {
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+
+  --color-bg: #f8fafc;
+  --color-card: #ffffff;
+  --color-text: #1e293b;
+  --color-text-light: #64748b;
+  --color-primary: #38bdf8;
+  --color-success: #4ade80;
+  --color-danger: #f87171;
+  --color-border: #e2e8f0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
   padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-main);
+
+  display: flex;
+  flex-direction: column;
+
+  min-height: 100vh;
 }
 
-h1 {
-  background-color: lightblue;
+/* header */
+header {
+  position: sticky;
+  top: 0;
+}
+
+header h1 {
+  background-color: var(--color-primary);
+  color: white;
   text-align: center;
-  font-family: var(--fonts);
+  margin: 0;
+  padding: 1.5rem;
+  font-size: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  flex: 1;
+}
+
+/* Buttons and form interaction */
 .new {
-  font-size: 3rem;
-  margin: 15px;
-  padding: 9px 22px;
-  border-radius: 9px;
-  border: 1px dashed;
-  background-color: #fff;
+  align-self: flex-start;
+  margin-bottom: 20px;
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px dashed var(--color-text-light);
+  background-color: var(--color-card);
   cursor: pointer;
+  transition: all 0.2s ease;
+
+  position: sticky;
+  top: 15px;
 }
 
 .new:hover {
-  color: red;
+  border-color: var(--color-danger);
+  transform: translateY(-2px);
 }
 
-/* style for dialog and form */
+.new svg {
+  vertical-align: middle;
+}
+
+
+/* style for dialog */
 dialog {
   border: none;
-  border-radius: 8px;
-  box-shadow: 0 24px 20px rgba(0, 0, 0, 0.15);
-  background-color: #ffffff;
-  color: #333333;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  background-color: var(--color-card);
+  padding: 2rem;
+  position: relative;
+  width: 100%;
+  max-width: 450px;
 }
 
-dialog p  {
-  font-size: 1.4rem;
-  font-family: sans-serif;
-  font-weight: bold;
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+dialog .text  {
+  font-size: 1.5rem;
+  font-weight: 700;
   text-align: center;
-}
-
-dialog p,
-dialog button,
-dialog form {
-  margin: 0;
+  margin-bottom: 1.5rem;
 }
 
 .close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
   border: none;
-  background-color: #fff;
-  position: relative;
-}
-
-.close-icon {
-  fill: red;
-  position: absolute;   
-  margin-left: 270px;
-  margin-top: -50px
-}
-
-.close-icon:hover {
-  background-color: #cecece;
-  border-radius: 9px;
-}
-
-.add {
+  background: transparent;
   cursor: pointer;
-  width: 50%;
-  font-size: 1.2rem;
-  padding: 7px;
-  background-color: rgb(54, 254, 4);
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  align-self: center; 
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s;
 }
 
-.add:hover {
-  box-shadow: 0 2px 1px #111;
-  
+.close:hover {
+  background-color: var(--color-border);
 }
 
+
+/* style for Form */
 form {
   display: flex;
   flex-direction: column;
@@ -101,124 +138,196 @@ form {
 }
 
 form label {
-  font-family: sans;
-  font-weight: 800;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 form input,
 form textarea {
-  border: 1px solid #ccc;
-  padding: 9px;
-  border-radius: 8px;
-  margin-bottom: 22px
+  border: 1px solid var(--color-border);
+  padding: 10px;
+  border-radius: 6px;
+  font-family: inherit;
+  width: 100%;
+  margin: 0 0 2rem 0;
 }
 
 form input:focus,
 form textarea:focus {
-  outline: none;
-  box-shadow: 2px 2px 1px #cecece;
+  outline: 2px solid var(--color-text-light);
+  outline-offset: -1px;
 }
 
 form textarea {
   resize: none;
-  min-height: 100px;
-  max-height: 100px;
+  height: 100px;
 }
 
-/* style for the book container and card */
-.bookContainer {
-  margin: 0 atuo;
+.form-btn {
+  display: flex;
+  gap: 12px;
 }
+
+.add,
+.reset {
+  margin-top: 1rem;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  transition: filter 0.2s;
+ 
+}
+
+.add {
+  background-color: var(--color-success);
+}
+
+.reset {
+  background-color: var(--color-danger);
+}
+
+.add:hover,
+.reset:hover {
+  filter: brightness(0.95);
+}
+
+/* book container and card */
+.bookContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  width: 100%;
+  /* max-width: 1200px;
+  padding: 20px; */
+} 
 
 .card {
-  width: 100%;
-  max-width: 350px;
-  height: auto;
-  border: 2px solid #000000;
-  background-color: #ffffff;
-  padding: 16px;
-  border-radius: 8px;
-  margin: 15px;
+  border: 1px solid var(--color-card);
+  background-color: var(--color-border);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
 }
 
-/* chapter instead of pages */
-/* .card:nth-child(-n+2) p:nth-child(4)::after {
-  content: " Chapters";
-} */
-
-
-.card p:nth-child(1) {
-  font-family: sans-serif;
-  font-size: 1.5rem;
-  font-weight: bold;
+.book-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
 }
 
-.card p:nth-child(2) {
-  font-family: monospace;
-  font-size: 0.9rem;
+.book-description {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
 }
 
-.card p:nth-child(4)::after {
-  content: " Pages";
-}
-
-.card p:nth-child(1), 
-.card p:nth-child(2) {
+.book-author,
+.book-pages,
+.book-category {
   margin: 0 0 0.4rem 0;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
-.card p:nth-child(2),
-.card p:nth-child(3) {
-  margin: 0 0 0.9rem 0;
+.book-author::before { content: "By: "; color: var(--color-text-light); }
+.book-pages::after { content: " Pages"; color: var(--color-text-light); }
+.book-category::before { 
+  content: "Tags: "; 
+  font-weight: 600; 
+  color: var(--color-text-light);
 }
 
-.card p:nth-child(3),
-.card p:nth-child(4),
-.card p:nth-child(5) {
-  margin: 0 0 0.2rem 0;
-  font-family: inter, sans-serif;
-}
-
-.card p:nth-child(5) {
-  margin-bottom: 22px;
-}
-
-.delete {
-  cursor: pointer;
-  background-color: red;
-  color: #fff;
-  border: none;
-  border-radius: 7px;
-  padding: 4px 19px;
-}
-
-.delete:hover,
-.edit:hover {
-  background-color: white;
-  color: black;
-  box-shadow: 2px 2px 3px #ccc;
-}
-
-.edit {
-  cursor: pointer;
-  background-color: blue;
-  color: #fff;
-  border: none;
-  border-radius: 7px;
-  padding: 4px 19px;
+.book-category {
+  margin-bottom: 1.5rem;
 }
 
 .button-cont {
   display: flex;
-  justify-content: space-around;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.delete,
+.edit {
+  flex: 1;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.delete {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+.delete:hover {
+  background-color: #fca5a5;
+  color: #111111;
+}
+
+.edit {
+  background-color: #e0f2fe;
+  color: #0284c7;
+}
+
+.edit:hover {
+  background-color: #bae6fd;
+}
+
+footer {
+  background: #545454;
+  margin: 0;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  width: 100%;
 }
 
 
-/* for desktops and tablets */
-@media screen and (min-width: 768px) {
-  .bookContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200Px, 1fr));
-    gap: 40px;
+/* add button for mobile display */
+@media (max-width: 640px) {
+  header h1 {
+    font-size: 1.4rem;
+    padding: 1rem;
+  }
+
+  .new {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    top: unset;
+    margin: 0;
+    border-radius: 50%;
+    padding: 12px;
+    background-color: var(--color-primary);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .new svg {
+    fill: white;
+    display: block;
+  }
+
+  .new:hover {
+    transform: translateY(-2px);
+    border: none;
   }
 }

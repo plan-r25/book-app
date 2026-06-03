@@ -28,20 +28,14 @@ const myLibrary = [
   new Book("Eternally Regressing Knight",
            "Aslo known as The Knight Only Lives Today, is a fantasy action novel about a medicore knight who gains the ability to return to the past whenever he dies.Unlike many protagonist, he starts with little talent and must repeatedly learn from his mistakes.",
            "Soul Pung",
-           "600+",
+           "600",
            "Fantasy, Action, Adventure"
   ),
   new Book("Myst, Might, Mayhem",
            "It follows Mok Gyeongwoon, a ruthless killer who takes the identity of a noble family's third young master and rises through a brutal martial world filled with demons, ghosts, conspiracies, and overwhelming power. It is known for its morally dark MC, and the connection to the universe of Nano Machine.",
            "Han joong Wol Ya",
-           "400+",
+           "400",
            "Martial Arts, Dark Fantasy, Action"
-  ),
-  new Book("The Atomic Habits", 
-           "It's a self-improvement book that explain how small, consistent changes in daily behaviour can lead to remarkable result over time.", 
-           "James Clear", 
-            320, 
-           "Self-help"
   ),
   new Book("Mastery",
            "It explores the lives of historical figures, artists, scientists, and entreprenuers, the book outline a path to mastery through apprenticeship, continous learning and delibrate practice.",
@@ -55,14 +49,19 @@ const myLibrary = [
             288,
             "Communication Skills, Self-help"
   ),
+    new Book("The Atomic Habits", 
+           "It's a self-improvement book that explain how small, consistent changes in daily behaviour can lead to remarkable result over time.", 
+           "James Clear", 
+            320, 
+           "Self-help"
+  ),
 ];
 
-function addBookToLibrary(book) {
-  myLibrary.push(book);
-  showBook();
-  console.log(myLibrary);
-
-}
+// function addBookToLibrary(book) {
+//   myLibrary.push(book);
+//   showBook();
+//   console.log(myLibrary);
+// }
 
 document.querySelector('form').addEventListener("submit", (e) => {
   e.preventDefault();
@@ -70,7 +69,7 @@ document.querySelector('form').addEventListener("submit", (e) => {
   if (editingId !== null) {
     const book = myLibrary.find(b => b.id === editingId);
     book.title = formData.get("title");
-    book.descrtiption = formData.get("description");
+    book.description = formData.get("description");
     book.author = formData.get("author");
     book.pages = Number(formData.get("pages"));
     book.category = formData.get("category");
@@ -90,6 +89,7 @@ document.querySelector('form').addEventListener("submit", (e) => {
   dialog.close();
 });
 
+
 //get the book from library and display it in a card
 function showBook() {
   container.innerHTML = '';
@@ -97,30 +97,36 @@ function showBook() {
   for (const book of myLibrary) {
     const card = document.createElement("div");
     card.classList.add("card");
+
     const properties = ["title", "description", "author", "pages", "category"];
     properties.forEach(prop => {
       const text = document.createElement("p");
       text.textContent = book[prop];
+      text.classList.add(`book-${prop}`);
       card.appendChild(text);
     })
+    const div = document.createElement("div");
+    div.classList.add("button-cont")
+
     const dltBtn = document.createElement("button");
     dltBtn.textContent = "Delete";
     dltBtn.classList.add("delete")
-
-    const edtBtn = document.createElement('button');
-    edtBtn.textContent = "Edit";
-
     dltBtn.addEventListener("click", (e) => {
       const index = myLibrary.findIndex(b => b.id === book.id);
       myLibrary.splice(index, 1);
       showBook();
     });
-
+    
+    const edtBtn = document.createElement('button');
+    edtBtn.textContent = "Edit";
+    edtBtn.classList.add("edit");
     edtBtn.addEventListener("click", () => {
       const edit = myLibrary.find(b => b.id === book.id);
       editBook(edit);
     });
-    card.append(dltBtn, edtBtn);
+    
+    div.append(dltBtn, edtBtn);
+    card.appendChild(div);
     fragment.appendChild(card);
   }
   container.appendChild(fragment);

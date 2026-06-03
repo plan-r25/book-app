@@ -8,11 +8,19 @@
 </head>
 <body>
   <header>
-    <h1>My Library</h1>
+    <h1>My Book Collections</h1>
   </header>
   <main>
-    <button class="new">Add Book</button>
+    <!-- button to add new book -->
+    <button class="new"> 
+      <svg xmlns="http://www.w3.org/2000/svg" 
+      height="40px" 
+      viewBox="0 -960 960 960" 
+      width="40px" 
+      fill="#111"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+    </button>
     <dialog id="formDialog" class="modal">
+      <p class="text">Add New Book</p>
       <button class="close">
         <svg xmlns="http://www.w3.org/2000/svg" 
             class="close-icon" 
@@ -54,13 +62,19 @@
                id="category"
                name="category" 
                placeholder="category" />
-        <button class="add">Add</button>       
+        <div class="form-btn">
+        <button type="reset" class="reset">Reset Form</button>
+        <button class="add">Add</button>    
+        </div>
       </form>
     </dialog>
     <div class="bookContainer">
       <!-- we'll add the book cards using JS -->
     </div>
   </main>
+  <footer>
+    &copy; 2026 Plan R
+  </footer>
   <script src="script.js"></script>
 </body>
 </html>

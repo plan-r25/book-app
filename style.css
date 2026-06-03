@@ -25,7 +25,17 @@ h1 {
 }
 
 .new {
+  font-size: 3rem;
+  margin: 15px;
+  padding: 9px 22px;
+  border-radius: 9px;
+  border: 1px dashed;
+  background-color: #fff;
   cursor: pointer;
+}
+
+.new:hover {
+  color: red;
 }
 
 /* style for dialog and form */
@@ -37,6 +47,18 @@ dialog {
   color: #333333;
 }
 
+dialog p  {
+  font-size: 1.4rem;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+
+dialog p,
+dialog button,
+dialog form {
+  margin: 0;
+}
 
 .close {
   border: none;
@@ -48,7 +70,7 @@ dialog {
   fill: red;
   position: absolute;   
   margin-left: 270px;
-  margin-top: -29px
+  margin-top: -50px
 }
 
 .close-icon:hover {
@@ -79,7 +101,7 @@ form {
 }
 
 form label {
-  font-family: sans-serif;
+  font-family: sans;
   font-weight: 800;
 }
 
@@ -119,9 +141,10 @@ form textarea {
   margin: 15px;
 }
 
-.card:nth-child(-n+2) p:nth-child(4)::after {
+/* chapter instead of pages */
+/* .card:nth-child(-n+2) p:nth-child(4)::after {
   content: " Chapters";
-}
+} */
 
 
 .card p:nth-child(1) {
@@ -169,6 +192,33 @@ form textarea {
   padding: 4px 19px;
 }
 
-.delete:hover {
+.delete:hover,
+.edit:hover {
+  background-color: white;
+  color: black;
   box-shadow: 2px 2px 3px #ccc;
+}
+
+.edit {
+  cursor: pointer;
+  background-color: blue;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 4px 19px;
+}
+
+.button-cont {
+  display: flex;
+  justify-content: space-around;
+}
+
+
+/* for desktops and tablets */
+@media screen and (min-width: 768px) {
+  .bookContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200Px, 1fr));
+    gap: 40px;
+  }
 }

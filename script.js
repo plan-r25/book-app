@@ -67,7 +67,7 @@ document.querySelector('form').addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
   if (editingId !== null) {
-    const book = myLibrary.find(b => b.id === editingId);
+    const book = libr.find(b => b.id === editingId);
     book.title = formData.get("title");
     book.description = formData.get("description");
     book.author = formData.get("author");
@@ -83,18 +83,23 @@ document.querySelector('form').addEventListener("submit", (e) => {
       formData.get("category")  
     );
   myLibrary.push(book);
+  localStorage.setItem("library", JSON.stringify(myLibrary));
   }
   showBook();
   e.target.reset();
   dialog.close();
 });
 
+// get book from local storage
+ const libr = JSON.parse(localStorage.getItem("library")) || [];
+ console.log('library', libr);
 
 //get the book from library and display it in a card
 function showBook() {
   container.innerHTML = '';
   const fragment = document.createDocumentFragment();
-  for (const book of myLibrary) {
+
+  for (const book of libr) {
     const card = document.createElement("div");
     card.classList.add("card");
 
@@ -105,6 +110,7 @@ function showBook() {
       text.classList.add(`book-${prop}`);
       card.appendChild(text);
     })
+
     const div = document.createElement("div");
     div.classList.add("button-cont")
 
@@ -112,8 +118,9 @@ function showBook() {
     dltBtn.textContent = "Delete";
     dltBtn.classList.add("delete")
     dltBtn.addEventListener("click", (e) => {
-      const index = myLibrary.findIndex(b => b.id === book.id);
-      myLibrary.splice(index, 1);
+      const index = libr.findIndex(b => b.id === book.id);
+      libr.splice(index, 1);
+      localStorage.setItem("library", JSON.stringify(libr));
       showBook();
     });
     
@@ -121,8 +128,9 @@ function showBook() {
     edtBtn.textContent = "Edit";
     edtBtn.classList.add("edit");
     edtBtn.addEventListener("click", () => {
-      const edit = myLibrary.find(b => b.id === book.id);
+      const edit = libr.find(b => b.id === book.id);
       editBook(edit);
+      localStorage.setItem("library", JSON.stringify(libr));
     });
 
     const stats = document.createElement("button");
@@ -131,7 +139,6 @@ function showBook() {
     stats.addEventListener("click", () => {
       if(stats.textContent === "status" || stats.textContent === "unread") {
         stats.textContent = "read";
-        stats.style.color = "lightblue";
       } else {
         stats.textContent = "unread";
       }
@@ -142,6 +149,8 @@ function showBook() {
     fragment.appendChild(card);
   }
   container.appendChild(fragment);
+    console.log("bool", libr);
+
 }
 
 showBook();

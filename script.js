@@ -124,8 +124,20 @@ function showBook() {
       const edit = myLibrary.find(b => b.id === book.id);
       editBook(edit);
     });
+
+    const stats = document.createElement("button");
+    stats.classList.add("stats");
+    stats.textContent = "status";
+    stats.addEventListener("click", () => {
+      if(stats.textContent === "status" || stats.textContent === "unread") {
+        stats.textContent = "read";
+        stats.style.color = "lightblue";
+      } else {
+        stats.textContent = "unread";
+      }
+    })
     
-    div.append(dltBtn, edtBtn);
+    div.append(dltBtn, edtBtn, stats);
     card.appendChild(div);
     fragment.appendChild(card);
   }

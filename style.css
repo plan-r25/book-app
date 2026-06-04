@@ -260,7 +260,8 @@ form textarea {
 }
 
 .delete,
-.edit {
+.edit,
+.stats {
   flex: 1;
   cursor: pointer;
   border: none;

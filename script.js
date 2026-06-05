@@ -12,19 +12,23 @@ closeBtn.addEventListener("click", () => {
   dialog.close();
 })
 
+let libr = [];
+let editingId = null;
+
 //library logic
 class Book {
-  constructor(title, description, author, pages, category) {
+  constructor(title, description, author, pages, category, status = "unread") {
     this.id = crypto.randomUUID();
     this.title = title;
     this.description = description;
     this.author = author;
     this.pages = pages;
     this.category = category;
+    this.status = status;
   }
 }
 
-const myLibrary = [
+const defaultBooks = [
   new Book("Eternally Regressing Knight",
            "Aslo known as The Knight Only Lives Today, is a fantasy action novel about a medicore knight who gains the ability to return to the past whenever he dies.Unlike many protagonist, he starts with little talent and must repeatedly learn from his mistakes.",
            "Soul Pung",
@@ -57,24 +61,26 @@ const myLibrary = [
   ),
 ];
 
-// function addBookToLibrary(book) {
-//   myLibrary.push(book);
-//   showBook();
-//   console.log(myLibrary);
-// }
+if(!localStorage.getItem("library")) {
+  localStorage.setItem("library", JSON.stringify(defaultBooks));
+}
 
 document.querySelector('form').addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
+  //editing an existing book
   if (editingId !== null) {
     const book = libr.find(b => b.id === editingId);
-    book.title = formData.get("title");
-    book.description = formData.get("description");
-    book.author = formData.get("author");
-    book.pages = Number(formData.get("pages"));
-    book.category = formData.get("category");
+    if (book) {
+     book.title = formData.get("title");
+     book.description = formData.get("description");
+     book.author = formData.get("author");
+     book.pages = Number(formData.get("pages"));
+     book.category = formData.get("category");
+    }
     editingId = null;
   } else {
+    //adding a new book
     let book = new Book(
       formData.get("title"),
       formData.get("description"),
@@ -82,21 +88,19 @@ document.querySelector('form').addEventListener("submit", (e) => {
       Number(formData.get("pages")),
       formData.get("category")  
     );
-  myLibrary.push(book);
-  localStorage.setItem("library", JSON.stringify(myLibrary));
+  libr.push(book);
   }
+  localStorage.setItem("library", JSON.stringify(libr));
   showBook();
   e.target.reset();
   dialog.close();
 });
 
-// get book from local storage
- const libr = JSON.parse(localStorage.getItem("library")) || [];
- console.log('library', libr);
 
 //get the book from library and display it in a card
 function showBook() {
   container.innerHTML = '';
+  libr = JSON.parse(localStorage.getItem("library")) || [];
   const fragment = document.createDocumentFragment();
 
   for (const book of libr) {
@@ -114,50 +118,49 @@ function showBook() {
     const div = document.createElement("div");
     div.classList.add("button-cont")
 
+    //delete button
     const dltBtn = document.createElement("button");
     dltBtn.textContent = "Delete";
     dltBtn.classList.add("delete")
-    dltBtn.addEventListener("click", (e) => {
+    dltBtn.addEventListener("click", () => {
       const index = libr.findIndex(b => b.id === book.id);
       libr.splice(index, 1);
       localStorage.setItem("library", JSON.stringify(libr));
       showBook();
     });
     
+    //edit button
     const edtBtn = document.createElement('button');
     edtBtn.textContent = "Edit";
     edtBtn.classList.add("edit");
     edtBtn.addEventListener("click", () => {
-      const edit = libr.find(b => b.id === book.id);
-      editBook(edit);
-      localStorage.setItem("library", JSON.stringify(libr));
+      editBook(book);
     });
 
+    //status read/unread button
     const stats = document.createElement("button");
     stats.classList.add("stats");
-    stats.textContent = "status";
+    stats.textContent = book.status || "unread";
     stats.addEventListener("click", () => {
-      if(stats.textContent === "status" || stats.textContent === "unread") {
-        stats.textContent = "read";
-      } else {
-        stats.textContent = "unread";
-      }
-    })
+      book.status = book.status === "read" ? "unread" : "read";
+      stats.textContent = book.status;
+      localStorage.setItem("library", JSON.stringify(libr));
+    });
     
+    //appending all the elements
     div.append(dltBtn, edtBtn, stats);
     card.appendChild(div);
     fragment.appendChild(card);
   }
   container.appendChild(fragment);
-    console.log("bool", libr);
-
+  console.log("library:", libr);
 }
 
-showBook();
 
-let editingId = null;
+//function to edit existing book
 function editBook(book) {
   editingId = book.id;
+
   const title = document.querySelector("input[name='title']");
   const description = document.querySelector("textarea[name='description']");
   const author = document.querySelector("input[name='author']");
@@ -172,3 +175,5 @@ function editBook(book) {
   
   dialog.showModal();
 }
+
+showBook();

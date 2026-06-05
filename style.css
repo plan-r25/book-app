@@ -108,7 +108,7 @@ dialog .text  {
   font-size: 1.5rem;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin: 0 0 15px 0;
 }
 
 .close {
@@ -134,7 +134,7 @@ dialog .text  {
 form {
   display: flex;
   flex-direction: column;
-  padding: 22px;
+  padding: 0 22px 0 22px;
 }
 
 form label {
@@ -170,7 +170,7 @@ form textarea {
 
 .add,
 .reset {
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   cursor: pointer;
   width: 100%;
   font-size: 1rem;
@@ -178,8 +178,7 @@ form textarea {
   padding: 10px;
   border: none;
   border-radius: 6px;
-  transition: filter 0.2s;
- 
+  transition: filter 0.2s; 
 }
 
 .add {
@@ -330,5 +329,10 @@ footer {
   .new:hover {
     transform: translateY(-2px);
     border: none;
+  }
+
+  dialog {
+    width: 100%;
+    max-width: 370px;
   }
 }

@@ -332,7 +332,6 @@ footer {
   }
 
   dialog {
-    width: 100%;
-    max-width: 370px;
+    width: min(990vw, 370px);
   }
 }

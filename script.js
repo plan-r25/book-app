@@ -1,19 +1,26 @@
 const newBtn = document.querySelector(".new");
 const dialog = document.querySelector("#formDialog");
-const closeBtn = document.querySelector(".close-icon")
-const container = document.querySelector(".bookContainer")
+const closeBtn = document.querySelector(".close")
+const container = document.querySelector(".bookContainer");   const addBtn = document.querySelector(".add");
+const form = document.querySelector("form");
+
+let libr = [];
+let editingId = null;
+
 
 //dialog box listener
 newBtn.addEventListener("click", () => {
+  form.reset();
+  addBtn.textContent = "Add";
   dialog.showModal();
 })
 
 closeBtn.addEventListener("click", () => {
+  editingId = null;
   dialog.close();
 })
 
-let libr = [];
-let editingId = null;
+
 
 //library logic
 class Book {
@@ -53,19 +60,18 @@ const defaultBooks = [
             288,
             "Communication Skills, Self-help"
   ),
-    new Book("The Atomic Habits", 
+    new Book("Atomic Habits", 
            "It's a self-improvement book that explain how small, consistent changes in daily behaviour can lead to remarkable result over time.", 
            "James Clear", 
             320, 
            "Self-help"
   ),
 ];
-
 if(!localStorage.getItem("library")) {
   localStorage.setItem("library", JSON.stringify(defaultBooks));
 }
 
-document.querySelector('form').addEventListener("submit", (e) => {
+form.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
   //editing an existing book
@@ -134,8 +140,10 @@ function showBook() {
     edtBtn.textContent = "Edit";
     edtBtn.classList.add("edit");
     edtBtn.addEventListener("click", () => {
+      addBtn.textContent = "Save";
       editBook(book);
     });
+
 
     //status read/unread button
     const stats = document.createElement("button");
@@ -146,14 +154,13 @@ function showBook() {
       stats.textContent = book.status;
       localStorage.setItem("library", JSON.stringify(libr));
     });
-    
+
     //appending all the elements
     div.append(dltBtn, edtBtn, stats);
     card.appendChild(div);
     fragment.appendChild(card);
   }
   container.appendChild(fragment);
-  console.log("library:", libr);
 }
 
 
